@@ -8,7 +8,7 @@ Personal homelab setup running on Ubuntu 24.04 LTS.
 - **CPU**: Intel i5-3210M (4 cores @ 3.1GHz)
 - **RAM**: 8GB DDR3
 - **OS**: Ubuntu 24.04 LTS
-- **Purpose**: Self-hosting, learning AWS with LocalStack
+- **Purpose**: Self-hosting services
 
 ## 🏠 Services
 
@@ -132,10 +132,9 @@ homelab-docs/
 ├── README.md                    # This file
 ├── docs/
 │   ├── SECURITY.md             # Security setup guide
-│   ├── LOCALSTACK.md           # LocalStack configuration
-│   └── SERVICES.md             # Service details
 └── templates/
     └── docker-compose.example.yml  # Template compose file
+    └── .env.example  		    # Template .env file
 ```
 
 ## 🎯 Why This Setup?
@@ -154,6 +153,8 @@ This homelab serves multiple purposes:
 - [LocalStack Documentation](https://docs.localstack.cloud)
 - [Docker Documentation](https://docs.docker.com)
 - [Tailscale Documentation](https://tailscale.com/kb)
+- [n8n Documentation](https://docs.n8n.io/)
+- [Vaultwarden Documentation](https://github.com/dani-garcia/vaultwarden)
 
 ## 📝 Notes
 
@@ -168,8 +169,9 @@ This is a personal learning project running on repurposed hardware. All services
 ## 🙏 Acknowledgments
 
 - r/homelab community for inspiration
-- Claude AI for troubleshooting assistance
+- Claude AI, Gemini Pro, ChatGPT for troubleshooting assistance
 - Various Docker and self-hosting guides
+- Techno Tim, Hardware Haven, and TechHut on Youtube
 - Open source community
 
 ## 📄 License
