@@ -22,7 +22,7 @@ nano .env
 ```
 
 **Required changes:**
-- `SERVER_IP` - Your server's LAN IP (e.g., 192.168.254.112)
+- `SERVER_IP` - Your server's LAN IP (e.g., 192.168.254.100)
 - `TIMEZONE` - Your timezone (e.g., Asia/Manila)
 - `BASE_DOMAIN` - Your domain name
 - All service-specific tokens and passwords
