@@ -2,7 +2,7 @@
 
 Complete security setup for the homelab.
 
-## 🔥 Firewall Setup (UFW)
+## Firewall Setup (UFW)
 
 ### Initial Configuration
 ```bash
@@ -35,7 +35,7 @@ sudo ufw status numbered
 sudo tail -f /var/log/ufw.log
 ```
 
-## 🐳 Docker Port Binding Strategy
+## Docker Port Binding Strategy
 
 ### Three Levels of Access
 
@@ -64,7 +64,7 @@ ports:
   - "127.0.0.1:3306:3306"
 ```
 
-## 🔍 Security Audit Script
+## Security Audit Script
 
 Create `~/security-check.sh`:
 ```bash
@@ -89,7 +89,7 @@ chmod +x ~/security-check.sh
 ~/security-check.sh
 ```
 
-## 🔐 Service-Specific Security
+## Service-Specific Security
 
 ### Vaultwarden (Password Manager)
 - Always behind HTTPS (NPM handles SSL)
@@ -114,7 +114,7 @@ chmod +x ~/security-check.sh
 - Use authentication token (Pro version)
 - Don't expose to internet directly
 
-## 🌐 Network Security
+## Network Security
 
 ### Tailscale Setup
 ```bash
@@ -134,7 +134,7 @@ tailscale status
 - SSL/TLS termination
 - Access control via Cloudflare Access (optional)
 
-## 📋 Security Checklist
+## Security Checklist
 
 Before deploying any new service:
 
@@ -149,7 +149,7 @@ Before deploying any new service:
 - [ ] Documented in services list
 - [ ] Ran security audit script
 
-## 🚨 Incident Response
+## Incident Response
 
 If you suspect unauthorized access:
 
@@ -184,26 +184,7 @@ If you suspect unauthorized access:
    - Update all containers
    - Check for unauthorized containers
 
-## 📊 Regular Maintenance
-
-### Weekly
-- Run security audit script
-- Check for container updates
-- Review logs for anomalies
-
-### Monthly
-- Review and rotate credentials
-- Update UFW rules if needed
-- Check disk space and clean up logs
-- Test backup restoration
-
-### Quarterly
-- Full security review
-- Update all documentation
-- Review and remove unused services
-- Test disaster recovery plan
-
-## 🔗 Resources
+## Resources
 
 - [Docker Security Best Practices](https://docs.docker.com/engine/security/)
 - [UFW Guide](https://help.ubuntu.com/community/UFW)
