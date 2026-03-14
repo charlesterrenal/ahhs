@@ -2,7 +2,7 @@
 
 Personal homelab setup running on Ubuntu 24.04 LTS.
 
-## 🖥️ Hardware
+## Hardware
 
 - **Model**: Dell Latitude E5430 (repurposed laptop)
 - **CPU**: Intel i5-3210M (4 cores @ 3.1GHz)
@@ -10,7 +10,7 @@ Personal homelab setup running on Ubuntu 24.04 LTS.
 - **OS**: Ubuntu 24.04 LTS
 - **Purpose**: Self-hosting services
 
-## 🏠 Services
+## Services
 
 | Service | Purpose | Access Method |
 |---------|---------|---------------|
@@ -22,7 +22,7 @@ Personal homelab setup running on Ubuntu 24.04 LTS.
 | **Homepage** | Dashboard | LAN only |
 | **NPM** | Nginx Proxy Manager | Public (80, 81, 443) |
 
-## 🌐 Network Architecture
+## Network Architecture
 ```
 Internet
     ↓
@@ -35,7 +35,7 @@ Internal Services (192.168.x.x:PORTS)
 Tailscale VPN (remote access)
 ```
 
-## 🛡️ Security Setup
+## Security Setup
 
 - **Firewall**: UFW enabled with default deny
 - **Port Binding**: All services bound to LAN IP except reverse proxy
@@ -43,21 +43,21 @@ Tailscale VPN (remote access)
 - **Web Services**: Cloudflare Tunnel with SSL
 - **Access Control**: Services behind reverse proxy with authentication
 
-## 📚 Key Learnings
+## Key Learnings
 
 ### 1. Docker Port Binding Security
 
 Always bind to specific IPs, never `0.0.0.0` unless absolutely necessary:
 ```yaml
-# ❌ Bad - Exposes to everyone
+# Bad - Exposes to everyone
 ports:
   - "8080:80"
 
-# ✅ Good - LAN only
+# Good - LAN only
 ports:
   - "192.168.x.x:8080:80"
 
-# ✅ Best - Localhost only (access via reverse proxy)
+# Best - Localhost only (access via reverse proxy)
 ports:
   - "127.0.0.1:8080:80"
 ```
@@ -92,7 +92,7 @@ Access via:
 - Remote: Via Tailscale IP
 - Web UI: `https://app.localstack.cloud`
 
-## 🔧 Useful Commands
+## Useful Commands
 
 ### Docker Management
 ```bash
@@ -126,7 +126,7 @@ htop
 sudo ss -tulpn
 ```
 
-## 📁 Repository Structure
+## Repository Structure
 ```
 homelab-docs/
 ├── README.md                    # This file
@@ -137,7 +137,7 @@ homelab-docs/
     └── .env.example  		    # Template .env file
 ```
 
-## 🎯 Why This Setup?
+## Why This Setup?
 
 This homelab serves multiple purposes:
 1. **Learning**: Practice with AWS services via LocalStack
@@ -146,7 +146,7 @@ This homelab serves multiple purposes:
 4. **Media**: Personal Jellyfin server for family
 5. **Security**: Vaultwarden for password management
 
-## 🔗 Resources
+## Resources
 
 - [Awesome Self-Hosted](https://github.com/awesome-selfhosted/awesome-selfhosted)
 - [r/homelab](https://reddit.com/r/homelab)
@@ -156,7 +156,7 @@ This homelab serves multiple purposes:
 - [n8n Documentation](https://docs.n8n.io/)
 - [Vaultwarden Documentation](https://github.com/dani-garcia/vaultwarden)
 
-## 📝 Notes
+## Notes
 
 This is a personal learning project running on repurposed hardware. All services are containerized with Docker for easy management and updates.
 
@@ -166,7 +166,7 @@ This is a personal learning project running on repurposed hardware. All services
 - Built-in UPS (battery backup)
 - Compact footprint
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - r/homelab community for inspiration
 - Claude AI, Gemini Pro, ChatGPT for troubleshooting assistance
@@ -174,6 +174,6 @@ This is a personal learning project running on repurposed hardware. All services
 - Techno Tim, Hardware Haven, and TechHut on Youtube
 - Open source community
 
-## 📄 License
+## License
 
 MIT License - Feel free to use any part of this documentation for your own homelab!
