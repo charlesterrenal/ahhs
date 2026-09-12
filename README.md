@@ -1,81 +1,61 @@
-# My Homelab Documentation
+# AHHS: A Humble Home Server
 
-My personal production environment running on **Proxmox VE**, specialized in network security, workflow automation, and self-hosted service development.
+Personal production environment on **Proxmox VE**. Segmented LXC nodes running Docker stacks for automation, media, telemetry, and local AI.
+
+---
+
 ## Hardware
 
-- **Model**: Dell Latitude E5430
-- **RAM**: 8GB DDR3 (upgrade to 16GB+ planned)
-- **Storage**: 128GB SSD (System) + 500GB HDD (Storage/Media)
-- **OS**: Proxmox VE 9.1.1
-- **Purpose**: Hosting containerized production services
-## Services
+- **Host:** Dell Latitude E5430
+- **CPU:** Intel Core i5 (2C/4T)
+- **RAM:** 8GB DDR3
+- **Storage:** 128GB SSD (Proxmox LVM-Thin) + 500GB HDD (Persistent Data / Media)
+- **OS:** Proxmox VE 9.x
 
-| **Service**           | **Purpose**                            | **Access Method**       |
-| --------------------- | -------------------------------------- | ----------------------- |
-| **Portfolio Site**    | Personal website (charlesterrenal.com) | Public (Cloudflare/NPM) |
-| **CompuTeRent**       | DePIN Stellar blockchain platform      | Public (Cloudflare/NPM) |
-| **Vaultwarden**       | Password manager                       | Public (Cloudflare/NPM) |
-| **Jellyfin**          | Media server                           | Via NPM reverse proxy   |
-| **Samba**             | Network file shares                    | LAN/Tailscale           |
-| **NPM**               | Nginx Proxy Manager                    | Public (80, 81, 443)    |
-| **Cloudflare Tunnel** | Secure ingress gateway                 | Public                  |
+---
 
-## Network Architecture
-```
-Internet
-    ↓
-Cloudflare Tunnel (LXC 100)
-    ↓
-Nginx Proxy Manager (192.168.254.x:80/81/443)
-    ↓
-LXC Containers (192.168.254.x/y:PORTS)
-    ↓
-Tailscale VPN (Remote host & subnet access)
-```
-## Security Setup
-- **Defense in Depth**: Isolated Gateway LXC (100) from Application LXC (101).
-- **Remote Access**: Tailscale mesh VPN with subnet routing for secure management.
-- **Web Services**: Cloudflare Tunnels for public ingress without opening router ports.
-- **Privilege Level**: Services run in unprivileged Ubuntu 24.04 LXC containers.
-## Key Learnings
-### 1. Proxmox LXC Management
-Managing services via LXC provides near-native performance compared to VMs.
-- **LXC 100 (Gateway)**: Handles all edge traffic.
-- **LXC 101 (Core)**: Dedicated to web apps like your Stellar project.
-- **LXC 102 (Media)**: Specialized for storage and hardware passthrough.
-### 2. Hardware Passthrough
-Setting up **Intel GPU passthrough** for Jellyfin (`/dev/dri`) was crucial for keeping CPU usage low during video transcoding on the i5-3210M.
-### 3. Tailscale Subnet Routing
-Rather than installing Tailscale on every container, advertising the `192.168.254.0/24` route from the Proxmox host allows remote access to the entire cluster while keeping containers "clean".
-## Useful Commands
-### Proxmox Host Management
-```
-# List all containers
-pct list
+## Architecture
 
-# Enter a container's shell directly
-pct enter 101
-
-# Start/Stop container
-pct start 102
-pct stop 102
+```text
+Internet / Client
+        │
+        ▼
+ LXC 100 (Gateway): Cloudflare Tunnel, Nginx Proxy Manager, Tailscale
+        │
+        ├─────────────────┬─────────────────┬─────────────────┐
+        ▼                 ▼                 ▼                 ▼
+  LXC 101 (Core)    LXC 102 (Media)   LXC 103 (Ops)     LXC 105 (AI Hub)
+  Vaultwarden       Jellyfin          Portainer         LibreChat
+  n8n               Arr Stack         Uptime Kuma       MongoDB
+  Portfolio         qBittorrent       pve-dashboard     Syncthing
+                    Samba Shares                        MCP Tools
 ```
-### Network & Logs
-```
-# Check Tailscale routing status
-tailscale status
 
-# View Nginx Proxy Manager logs (in LXC 100)
-journalctl -u nginx -f
+---
 
-# Verify disk mount for media
-df -h | grep /mnt/storage
-```
-## Why This Setup?
-1. **Professional Growth**: Building a production-grade environment for your portfolio.
-2. **Privacy**: Self-hosting **Vaultwarden** to keep credentials off third-party clouds.
-3. **Media Independence**: **Jellyfin** provides a private alternative to streaming services.
-4. **Blockchain Development**: Hosting **CompuTeRent** to explore DePIN and Stellar.
+## Nodes & Services
+
+| Node | Role | Services | Access |
+| :--- | :--- | :--- | :--- |
+| **`lxc100-gateway`** | Ingress | `Nginx Proxy Manager` · `Cloudflare Tunnel` · `Tailscale` | Public / Tailnet |
+| **`lxc101-core`** | Internal Apps | `Vaultwarden` · `n8n` · `Portfolio` | Reverse Proxy / Tunnel |
+| **`lxc102-media`** | Media & Storage | `Jellyfin` · `Radarr` · `Sonarr` · `Prowlarr` · `qBittorrent` · `Jellyseerr` · `Samba` | LAN / Tailscale |
+| **`lxc103-ops`** | Monitoring | `pve-dashboard` · `Uptime Kuma` · `Portainer` | Internal / Tailnet |
+| **`lxc105-aihub`** | AI & Notes | `LibreChat` · `MongoDB` · `Syncthing` · `MCP Filesystem` | Internal / Tailnet |
+
+---
+
 ## Notes
-- This setup migrated from a *bare-metal Ubuntu server* to Proxmox VE to allow for better resource isolation and snapshot-based backups.
-- Utilizing a laptop provides a built-in UPS (battery) and low power draw, making it an ideal 24/7 "Humble Home Server".
+
+- **Isolation:** Unprivileged LXCs separate public web services from credentials and internal storage.
+- **Security:** Zero open inbound router ports; external access via Cloudflare Tunnels and Tailscale mesh.
+- **Monitoring:** Custom React dashboard (`pve-dashboard`) pulls live telemetry from Proxmox, Portainer, and Uptime Kuma APIs.
+- **Knowledge Sync:** Real-time peer-to-peer sync between local notes and self-hosted LibreChat via Syncthing.
+
+---
+
+## Links
+
+- Dashboard: [charlesterrenal/pve-dashboard](https://github.com/charlesterrenal/pve-dashboard)
+- Profile: [charlesterrenal/charlesterrenal](https://github.com/charlesterrenal/charlesterrenal)
+- Website: [charlesterrenal.com](https://charlesterrenal.com)
