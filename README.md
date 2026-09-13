@@ -56,6 +56,6 @@ Internet / Client
 
 ## Links
 
-- Dashboard: [charlesterrenal/pve-dashboard](https://github.com/charlesterrenal/pve-dashboard)
+- Dashboard: [charlesterrenal/orbit-dashboard](https://github.com/charlesterrenal/orbit-dashboard)
 - Profile: [charlesterrenal/charlesterrenal](https://github.com/charlesterrenal/charlesterrenal)
 - Website: [charlesterrenal.com](https://charlesterrenal.com)
